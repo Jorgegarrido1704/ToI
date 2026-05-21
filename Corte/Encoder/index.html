@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Maquinas Corte</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container text-center item-align-center"> 
+        <div class="row mt-5">
+            <div class="col-12 lx-12">
+                <div class="row">   
+                    <div class="col-3 lx-3 lg-3 border">
+                        <div class="M1">
+                            <h3>M1</h3>
+                            <h1 id="M1"><strong><span id="M1Result"></span>%</strong></h1>
+                        </div>
+                    </div>    
+                     <div class="col-3 lx-3 lg-3 border">
+                        <div class="M1">
+                            <h3>M1 without MicroStops</h3>
+                            <h1 id="M1"><strong><span id="M1ResultWo"></span>%</strong></h1>
+                        </div>
+                    </div>    
+                </div>
+           </div>
+                <table class="table table-striped table-hover table-responsive">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date Time</th>
+
+                    </tr>    
+                    </thead>
+                    <tbody id="registroMaquina1">
+                    
+                    </tbody>
+                </table>
+           
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
+
+</html>
+<script> 
+    function getdata() {
+    var url = "registromaquina1.php";
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+       // console.log(data);
+        var html = "";
+        for (var i = 0; i < data.length; i++) {
+            html += "<tr>";
+            html += "<td> " + data[i].maquina + "</td>";
+            html += "<td>" + data[i].estado + "</td>";
+            html += "<td>" + data[i].fecha + "</td>";
+            html += "</tr>";
+        }
+        document.getElementById("registroMaquina1").innerHTML = html;
+    })
+    .catch(error => console.log(error));
+}
+
+getdata();
+
+
+setInterval(getdata, 2000);
+function getMachines() {
+    // Si están en la misma carpeta, solo pon el nombre del archivo
+    const url = "getMachine1.php"; 
+    
+    fetch(url)
+    .then(response => {
+        // Esto te avisará en consola si el archivo realmente no existe
+        if (!response.ok) {
+            throw new Error("No se encontró el archivo PHP (Error " + response.status + ")");
+        }
+        return response.json(); // O .text() según lo que configuraste en tu PHP
+    })
+    .then(data => {
+        console.log(data);
+
+        document.getElementById("M1Result").innerHTML = data.OEE;
+        document.getElementById("M1ResultWo").innerHTML = data.OEEWo;
+
+
+    })
+    .catch(error => console.error("Hubo un problema:", error));
+}
+
+getMachines();
+setInterval(getMachines, 30000);
+
+
+
+    </script>
