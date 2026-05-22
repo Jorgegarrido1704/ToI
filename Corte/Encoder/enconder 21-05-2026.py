@@ -9,7 +9,7 @@ import esp32
 # --- Configuración ---
 SSID = "BITS Portable"
 PASSWORD = "ccex3HamAqY9cgk50uZx"
-URL_DB = "http://mxloficina.corp.internal.bergstrominc.com/Toi/Corte/Encoder/cuentaPulsos.php"
+URL_DB = "http://mxloficina.corp.internal.bergstrominc.com/ToI/Corte/Encoder/cuentaPulsos.php"
 
 
 i2c=I2C(0,scl=Pin(22),sda=Pin(21))
@@ -90,10 +90,10 @@ def conectar_wifi():
     print("\nConectado! IP:", wlan.ifconfig()[0])
 
 # Manejador de la interrupción (Encoder)
-def enviar_datos(valor, estado):
-    print(f"Enviando a DB: {valor} ({estado})")
+def enviar_datos(valor, estado, maquina):
+    print(f"Enviando a DB: {valor} ({estado}) maquina={maquina}")
     try:
-        data = f"valor={valor}&estado={estado}"
+        data = f"valor={valor}&estado={estado}&maquina={maquina}"
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         res = urequests.post(URL_DB, data=data, headers=headers)
         print("Respuesta servidor:", res.status_code)
@@ -158,13 +158,13 @@ while True:
         Led2_Working.value(chambeando)
 
         # TPM
-        if chambeando and time.ticks_diff(ahora,ultimo_pulso_tiempo)<1000:
+        if chambeando and time.ticks_diff(ahora,ultimo_pulso_tiempo)<500:
 
             estado="RUN"
             tiempo_trabajo+=delta
             if estado != lastSignal:
-                enviar_datos(tiempo_trabajo, "STOP")
-                enviar_datos(tiempo_trabajo, "RUN")
+                enviar_datos(tiempo_trabajo, "STOP","M1")
+                enviar_datos(tiempo_trabajo, "RUN","M1")
                 time.sleep(0.05)
             lastSignal=estado
            
@@ -174,8 +174,8 @@ while True:
             estado="STOP"
             tiempo_paro+=delta
             if estado != lastSignal:
-                enviar_datos(tiempo_paro, "RUN")
-                enviar_datos(tiempo_paro, "STOP")
+                enviar_datos(tiempo_paro, "RUN","M1")
+                enviar_datos(tiempo_paro, "STOP","M1")
                 time.sleep(0.05)
             lastSignal=estado
 
@@ -220,6 +220,7 @@ while True:
         oled.show()
 
         time.sleep(0.05)
+
 
 
 
