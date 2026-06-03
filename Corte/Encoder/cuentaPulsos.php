@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
     $sql = "INSERT INTO lecturas (valor, estado,maquina,fecha) VALUES ($valor, '$estado','$maquina','$fecha')";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($conn->query($sql) === TRUE AND $valor > 0) {
         echo "Registro guardado con éxito";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
