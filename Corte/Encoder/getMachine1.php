@@ -2,10 +2,10 @@
 
 require_once 'app.php';
 $date = date('Y-m-d');
-
+$maquina = $_GET['maquina'];
 $qry = "SELECT estado, fecha FROM lecturas 
         WHERE fecha BETWEEN '$date 07:30:00' AND '$date 15:30:00' 
-        AND maquina = 'M1' 
+        AND maquina = '$maquina' 
         ORDER BY fecha ASC, id ASC";
 
 $colection = $conn->query($qry);

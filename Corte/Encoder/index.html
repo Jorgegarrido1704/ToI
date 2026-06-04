@@ -102,9 +102,9 @@ getdata(maquina);
 
 
 setInterval(getdata(maquina), 2000);
-function getMachines() {
+function getMachines(maquina) {
     // Si están en la misma carpeta, solo pon el nombre del archivo
-    const url = "getMachine1.php"; 
+    const url = "getMachine1.php?maquina="+maquina; 
     
     fetch(url)
     .then(response => {
@@ -125,8 +125,8 @@ function getMachines() {
     .catch(error => console.error("Hubo un problema:", error));
 }
 
-getMachines();
-setInterval(getMachines, 30000);
+getMachines(maquina);
+setInterval(() => getMachines(maquina), 30000);
 
 
 
