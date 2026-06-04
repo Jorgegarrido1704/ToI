@@ -103,6 +103,7 @@ getdata(maquina);
 
 setInterval(getdata(maquina), 2000);
 function getMachines(maquina) {
+    
     // Si están en la misma carpeta, solo pon el nombre del archivo
     const url = "getMachine1.php?maquina="+maquina; 
     
@@ -126,6 +127,7 @@ function getMachines(maquina) {
 }
 
 getMachines(maquina);
+console.log("Maquina: " + maquina);
 setInterval(getMachines(maquina), 30000);
 
 
