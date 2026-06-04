@@ -2,8 +2,7 @@
 
 require_once 'app.php';
 $date = date('Y-m-d');
-$maquina = $_GET['maquina'];
-echo "Maquina: " . $maquina . "<br>";
+$maquina = $_GET['maquina']??"M1";
 $qry = "SELECT estado, fecha FROM lecturas 
         WHERE fecha BETWEEN '$date 07:30:00' AND '$date 15:30:00' 
         AND maquina = '$maquina' 
