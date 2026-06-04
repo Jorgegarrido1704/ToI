@@ -8,18 +8,45 @@
   </head>
   <body>
     <div class="container text-center item-align-center"> 
+        <div class="row">
+            <div class="col-12 lx-12">
+                <h1>Registros Maquina Corte</h1>
+            </div>
+            <div class="col-12 lx-12 offcanvas-body ">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item inline justify-content-between ">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">M1</button>
+                    </li>
+                    <li class="list-group-item inline justify-content-between">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight2" aria-controls="offcanvasRight2">M2</button>
+                    </li>
+                    <li class="list-group-item inline justify-content-between">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight3" aria-controls="offcanvasRight3">M3</button>
+                    </li>
+                    <li class="list-group-item inline justify-content-between">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight4" aria-controls="offcanvasRight4">M4</button>
+                    </li>
+                    <li class="list-group-item inline justify-content-between">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight5" aria-controls="offcanvasRight5">M5</button>
+                    </li>
+                    <li class="list-group-item inline justify-content-between">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight6" aria-controls="offcanvasRight6">M6</button>
+                    </li>
+                </ul>
+            </div>
+        </div>  
         <div class="row mt-5">
             <div class="col-12 lx-12">
                 <div class="row">   
                     <div class="col-3 lx-3 lg-3 border">
                         <div class="M1">
-                            <h3>M1</h3>
+                            <span id="maquinas"></span>
                             <h1 id="M1"><strong><span id="M1Result"></span>%</strong></h1>
                         </div>
                     </div>    
                      <div class="col-3 lx-3 lg-3 border">
                         <div class="M1">
-                            <h3>M1 without MicroStops</h3>
+                            <h3>Without MicroStops</h3>
                             <h1 id="M1"><strong><span id="M1ResultWo"></span>%</strong></h1>
                         </div>
                     </div>    
@@ -47,8 +74,13 @@
 
 </html>
 <script> 
-    function getdata() {
-    var url = "registromaquina1.php";
+
+    let maquina = "M1";
+    function getMaquina(maquina) {
+        document.getElementById("maquinas").innerHTML = maquina;
+    }
+    function getdata(maquina) {
+    var url = "registromaquina1.php?maquina="+maquina; // Asegúrate de que esta ruta sea correcta y que el archivo PHP esté en el mismo directorio o ajusta la ruta según sea necesario
     fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -65,8 +97,8 @@
     })
     .catch(error => console.log(error));
 }
-
-getdata();
+ 
+getdata(maquina);
 
 
 setInterval(getdata, 2000);
