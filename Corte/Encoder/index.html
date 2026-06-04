@@ -126,7 +126,9 @@ function getMachines(maquina) {
 }
 
 getMachines(maquina);
-setInterval(() => getMachines(maquina), 30000);
+setInterval( function() {
+    getMachines(maquina);
+}, 30000);
 
 
 
